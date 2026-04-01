@@ -1,9 +1,14 @@
 body{
-    background-color: rgb(231, 198, 101);
+    background-color: #f0c16a !important;
 }
 
 
-.home{
-    background-color: aquamarine;
-    height: 250px;
+.GradEffect video {
+    height: 300px;   /* change this value as you want */
+    width: 100%;     /* keeps it responsive */
+    object-fit: cover; /* keeps video nicely cropped */
+}
+
+.logo{
+    width:100px;
 }
