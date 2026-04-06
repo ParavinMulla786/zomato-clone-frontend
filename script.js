@@ -1,3 +1,4 @@
+
 const dishes = [{
     id: 1,
     name: "Paneer Tikka Masala",
@@ -91,12 +92,12 @@ function addNewDish() {
 
 function AddToCart(ID) {
 
-    getCFromLocal = getCartFromLocal()
+    const getCFromLocal = getCartFromLocal()
     index = getCFromLocal.findIndex((dInC, i) => dInC.dish_id == ID)
-
+    console.log(index)
     if (index != -1) {
-        getCFromLocal[index].quantity +=1
-        
+        getCFromLocal[index].quantity = getCFromLocal[index].quantity + 1
+savedToLocalCart(getCFromLocal)
         console.log("quantity.cart ******",cart)
 
     } else {
@@ -111,10 +112,11 @@ function AddToCart(ID) {
             discount: dishForCart.discount,
             quantity: 1
         }
-        cart.push(dishInCart)
-        console.log("cart ******",cart)
+        getCFromLocal.push(dishInCart)
+        savedToLocalCart(getCFromLocal)
+        console.log("cart ******",getCFromLocal)
     }
-    document.getElementById("cartLength").textContent = cart.length
+    document.getElementById("cartLength").textContent = getCFromLocal.length
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
@@ -127,8 +129,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     renderDishes(alreadySavedDish)
 
     savedCArt = getCartFromLocal()
+
     if(!savedCArt){
         savedToLocalCart([])
     }
+    document.getElementById("cartLength").textContent = savedCArt.length
 
 })

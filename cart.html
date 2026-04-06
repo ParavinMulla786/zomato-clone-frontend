@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+
+
+
+    <a href="./index.html">
+        <i>Back to Home</i>
+    </a>
+
+    <h1>Cart</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-8" id="renderCArt"></div>
+            <div class="col-4" id="summary"></div>
+        </div>
+    </div>
+
+
+    <script>
+    cart = JSON.parse(localStorage.getItem("cart"))
+
+    deliveryCharges = 100
+    flat5Per = 5
+    platformCharges = 20
+    totalDiscount = 0
+// Hoisting 
+console.log(cart)
+const actualAmount = cart.reduce((tAmount, d)=> {
+    console.log(d.price, d.discount, d.quantity)
+    console.log(tAmount)
+   tAmount += (d.price - (d.price * (d.discount / 100)))*d.quantity 
+   return tAmount
+},0)
+
+totalAmount = actualAmount - (actualAmount *(flat5Per/100))
+
+tAmount = totalAmount + deliveryCharges + platformCharges
+
+        document.querySelector("#renderCArt").innerHTML = cart.map((d, i) => `
+<div class="container bg-secondary p-4">
+    <div class="row" >
+       <div class="col-8">
+    
+    <h5>${d.name}</h5>
+    <p>
+        <button>+</button>
+    ${d.quantity}
+    <button>-</button>
+        </p>
+        </div>
+       <div class="col-4">
+        <p>${d.price}</p>
+</div>
+</div>
+</div>
+    `).join('')
+
+        document.querySelector("#summary").innerHTML = `
+        <p>total products : ${cart.length}</p>
+
+        <p>Total Amount : ${Math.floor(actualAmount).toFixed(2)}</p>
+        <p>Flat 5 % off Amount : ${totalAmount}</p>
+        <p>delivery Charges : ${deliveryCharges}</p>
+        <p>Platform Charges : ${platformCharges}</p>
+
+        <p>Grand Total :${tAmount}</p>
+        `
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
